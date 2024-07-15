@@ -1,12 +1,12 @@
 plugins {
-  //inlude the nodeJS plugin to execute nodejs and npm tasks
-  id "com.github.node-gradle.node" version "3.5.1"
+    id "com.github.node-gradle.node" version "3.5.1"
 }
 
 node {
-	download = true
-	version = "20.15.1"
-	npmVersion = "7.10.0"
+    download = true
+    version = "20.15.1"
+    npmVersion = "9.9.3"
+    nodeModulesDir = file("${project.projectDir}")
 }
 
 // Define clean task
@@ -14,42 +14,40 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-
-//webhook_w_github
+// Declare tasks
 //task npm_build(type: Exec) {
-
-//NO SECRET
-
-
-/////////
-//////task npm_build(type: Exec) {
-
-//    commandLine 'npm', 'run', 'build'
+//    environment 'PATH', "${System.env.NVM_BIN}:${System.env.PATH}"
 //}
 
 //task npm_test(type: Exec) {
+//   environment 'PATH', "${System.env.NVM_BIN}:${System.env.PATH}"
 //    commandLine 'npm', 'run', 'test'
-//
+//}
 
-//declare a build task
+//task npmInstall(type: Exec) {
+//   environment 'PATH', "${System.env.NVM_BIN}:${System.env.PATH}"
+//    commandLine 'npm', 'install'
+//}
+
+// Declare a build task
 task build
 
-//declare a task to create a zip of the app
+// Declare a task to create a zip of the app
 task zip(type: Zip) {
-	from ('.') {
-		include "*"
-		include "bin/**"
-		include "data/**"
-		include "node_modules/**"
-		include "public/**"
-		include "routes/**"
-		include "views/**"
-	}
+    from ('.') {
+        include "*"
+        include "bin/**"
+        include "data/**"
+        include "node_modules/**"
+        include "public/**"
+        include "routes/**"
+        include "views/**"
+    }
     archiveFileName = "trainSchedule.zip"
     destinationDirectory = file("$buildDir/dist")
 }
 
-//declare task dependencies
+// Declare task dependencies
 build.dependsOn zip
 zip.dependsOn npm_build
 npm_build.dependsOn npm_test

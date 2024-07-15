@@ -1,0 +1,57 @@
+plugins {
+  //inlude the nodeJS plugin to execute nodejs and npm tasks
+  id "com.github.node-gradle.node" version "3.5.1"
+}
+
+node {
+	download = true
+	version = "20.15.1"
+	npmVersion = "7.10.0"
+}
+
+// Define clean task
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+//webhook_w_github
+//task npm_build(type: Exec) {
+
+//NO SECRET
+
+
+/////////
+//////task npm_build(type: Exec) {
+
+//    commandLine 'npm', 'run', 'build'
+//}
+
+//task npm_test(type: Exec) {
+//    commandLine 'npm', 'run', 'test'
+//
+
+//declare a build task
+task build
+
+//declare a task to create a zip of the app
+task zip(type: Zip) {
+	from ('.') {
+		include "*"
+		include "bin/**"
+		include "data/**"
+		include "node_modules/**"
+		include "public/**"
+		include "routes/**"
+		include "views/**"
+	}
+    archiveFileName = "trainSchedule.zip"
+    destinationDirectory = file("$buildDir/dist")
+}
+
+//declare task dependencies
+build.dependsOn zip
+zip.dependsOn npm_build
+npm_build.dependsOn npm_test
+npm_test.dependsOn npmInstall
+npm_build.dependsOn npmInstall
