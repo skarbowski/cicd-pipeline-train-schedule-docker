@@ -1,13 +1,35 @@
 plugins {
   //inlude the nodeJS plugin to execute nodejs and npm tasks
-  id "com.moowork.node" version "1.2.0"
+  id "com.github.node-gradle.node" version "3.5.1"
 }
 
 node {
 	download = true
-	version = "9.11.1"
-	npmVersion = "5.6.0"
+	version = "20.15.1"
+	npmVersion = "7.10.0"
 }
+
+// Define clean task
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+//webhook_w_github
+//task npm_build(type: Exec) {
+
+//NO SECRET
+
+
+/////////
+//////task npm_build(type: Exec) {
+
+//    commandLine 'npm', 'run', 'build'
+//}
+
+//task npm_test(type: Exec) {
+//    commandLine 'npm', 'run', 'test'
+//
 
 //declare a build task
 task build
@@ -23,8 +45,8 @@ task zip(type: Zip) {
 		include "routes/**"
 		include "views/**"
 	}
-	destinationDir(file("dist"))
-	baseName "trainSchedule"
+    archiveFileName = "trainSchedule.zip"
+    destinationDirectory = file("$buildDir/dist")
 }
 
 //declare task dependencies
