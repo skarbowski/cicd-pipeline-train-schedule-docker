@@ -14,6 +14,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+//nowa notatka
 // Declare tasks
 //task npm_build(type: Exec) {
 //    environment 'PATH', "${System.env.NVM_BIN}:${System.env.PATH}"
